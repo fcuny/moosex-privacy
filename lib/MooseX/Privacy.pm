@@ -40,21 +40,59 @@ MooseX::Privacy - Provides syntax to enable privacy on your methods
 
   use MooseX::Privacy;
 
-  private foo => sub {
+  private _foo => sub {
     return 23;
   };
 
-  protect bar => sub {
+  protected _bar => sub {
     return 42;
   };
 
 =head1 DESCRIPTION
 
-MooseX::Privacy is
+MooseX::Privacy brings the concept of private and protected methods to your
+class.
+
+=head2 Private
+
+When you declare a method as B<private>, the method can be called only within
+the class.
+
+    package Foo;
+    use Moose;
+    use MooseX::Privacy;
+    private _foo => sub { return 23 };
+    sub foo { my $self = shift; $self->_foo }
+    1;
+
+    my $foo = Foo->new;
+    $foo->_foo; # die
+    $foo->foo;  # ok
+
+=head2 Protected
+
+When you declare a method as B<protected>, the method can be called only
+within the class AND any subclasses.
+
+    package Foo;
+    use Moose;
+    use MooseX::Privacy;
+    protected _foo => sub { return 23 };
+
+    package Bar;
+    use Moose;
+    extends Foo;
+    sub foo { my $self = shift; $self->_foo }
+    1;
+
+    my $foo = Foo->new;
+    $foo->_foo; # die
+    my $bar = Bar->new;
+    $bar->foo;  # ok
 
 =head1 AUTHOR
 
-franck cuny E<lt>franck.cuny@rtgi.frE<gt>
+franck cuny E<lt>franck@lumberjaph.netE<gt>
 
 =head1 SEE ALSO
 
