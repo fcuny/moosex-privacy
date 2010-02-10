@@ -34,7 +34,7 @@ __END__
 
 =head1 NAME
 
-MooseX::Privacy - Provides syntax to enable privacy on your methods
+MooseX::Privacy - Provides the syntax to restrict/control visibility of your methods
 
 =head1 SYNOPSIS
 
@@ -55,7 +55,7 @@ class.
 
 =head2 Private
 
-When you declare a method as B<private>, the method can be called only within
+When you declare a method as B<private>, this method can be called only within
 the class.
 
     package Foo;
@@ -71,8 +71,8 @@ the class.
 
 =head2 Protected
 
-When you declare a method as B<protected>, the method can be called only
-within the class AND any subclasses.
+When you declare a method as B<protected>, this method can be called only
+within the class AND any of it's subclasses.
 
     package Foo;
     use Moose;

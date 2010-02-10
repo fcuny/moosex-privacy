@@ -1,5 +1,6 @@
 NAME
-    MooseX::Privacy - Provides syntax to enable privacy on your methods
+    MooseX::Privacy - Provides the syntax to restrict/control visibility of
+    your methods
 
 SYNOPSIS
       use MooseX::Privacy;
@@ -17,7 +18,7 @@ DESCRIPTION
     your class.
 
   Private
-    When you declare a method as private, the method can be called only
+    When you declare a method as private, this method can be called only
     within the class.
 
         package Foo;
@@ -32,8 +33,8 @@ DESCRIPTION
         $foo->foo;  # ok
 
   Protected
-    When you declare a method as protected, the method can be called only
-    within the class AND any subclasses.
+    When you declare a method as protected, this method can be called only
+    within the class AND any of it's subclasses.
 
         package Foo;
         use Moose;
