@@ -50,13 +50,11 @@ MooseX::Privacy - Provides the syntax to restrict/control visibility of your met
 
 =head1 DESCRIPTION
 
-MooseX::Privacy brings the concept of private and protected methods to your
-class.
+MooseX::Privacy brings the concept of private and protected methods to your class.
 
 =head2 Private
 
-When you declare a method as B<private>, this method can be called only within
-the class.
+When you declare a method as B<private>, this method can be called only within the class.
 
     package Foo;
     use Moose;
