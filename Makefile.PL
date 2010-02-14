@@ -3,6 +3,7 @@ name 'MooseX-Privacy';
 all_from 'lib/MooseX/Privacy.pm';
 
 requires 'Moose';
+requires 'Scalar::Util';
 
 tests 't/*.t';
 author_tests 'xt';
