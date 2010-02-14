@@ -1,7 +1,9 @@
 package MooseX::Privacy::Meta::Class::Protected;
 
+use Scalar::Util;
+use Carp qw/confess/;
 use Moose::Role;
-use MooseX::Types::Moose qw(Str ArrayRef );
+use MooseX::Types::Moose qw/Str ArrayRef/;
 use MooseX::Privacy::Meta::Method::Protected;
 
 has local_protected_methods => (
@@ -15,26 +17,49 @@ has local_protected_methods => (
 );
 
 sub add_protected_method {
-    my $self = shift;
-    my ( $method_name, $body );
-    if ( scalar @_ == 1 ) {
-        $method_name = $_[0]->name;
-        $body        = $_[0]->body;
-    }
-    else {
-        ($method_name, $body) = @_;
-    }
-    $self->add_method(
-        $method_name,
-        MooseX::Privacy::Meta::Method::Protected->wrap(
-            name         => $method_name,
-            body         => $body,
-            package_name => $self->name
-        )
-    );
-    $self->_push_protected_method($method_name);
+    my ( $self, $method_name, $method ) = @_;
+
+    my $protected_method
+        = blessed $method
+        ? $method
+        : MooseX::Privacy::Meta::Method::Protected->wrap(
+        name         => $method_name,
+        package_name => $self->name,
+        body         => $method
+        );
+
+    confess $method_name . " is not a protected method"
+        unless $protected_method->isa(
+        'MooseX::Privacy::Meta::Method::Protected');
+
+    $self->add_method( $protected_method->name, $protected_method );
+    $self->_push_protected_method( $protected_method->name );
 }
 
 1;
+__END__
 
+=head1 NAME
 
+MooseX::Privacy::Meta::Class::Protected
+
+=head1 SYNOPSIS
+
+=head1 METHODS
+
+=head2 local_protected_methods
+
+=head2 add_protected_method
+
+=head1 AUTHOR
+
+franck cuny E<lt>franck@lumberjaph.netE<gt>
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
