@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 7;
 use Test::Exception;
 
 {
@@ -10,7 +10,7 @@ use Test::Exception;
     use Moose;
     use MooseX::Privacy;
 
-    private_method 'bar' => sub {
+    private_method bar => sub {
         my $self = shift;
         return 'baz';
     };
@@ -30,16 +30,6 @@ use Test::Exception;
         my $str  = shift;
         return 'foobar' . $str;
     };
-
-    sub add_public_method {
-        my $self = shift;
-        $self->meta->add_method(
-            'public_foo',
-            sub {
-                $self->private_meta_method;
-            }
-        );
-    }
 
 }
 
@@ -68,15 +58,3 @@ dies_ok { $bar->newbar() } "... can't call bar, method is private";
 is scalar @{ $foo->meta->local_private_methods }, 2,
     '... got two privates method';
 
-my $private_method = Class::MOP::Method->wrap(
-    sub { return 23 },
-    name         => 'private_meta_method',
-    package_name => 'Foo'
-);
-
-$foo->meta->add_private_method($private_method);
-
-dies_ok { $foo->private_meta_method } '... can\'t call the private method';
-
-$foo->add_public_method;
-is $foo->public_foo, 23, '... call private method via public method';
