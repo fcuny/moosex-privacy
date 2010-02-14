@@ -10,7 +10,7 @@ use Test::Exception;
     use Moose;
     use MooseX::Privacy;
 
-    protected 'bar' => sub {
+    protected_method 'bar' => sub {
         my $self = shift;
         return 'baz';
     };

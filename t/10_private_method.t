@@ -10,7 +10,7 @@ use Test::Exception;
     use Moose;
     use MooseX::Privacy;
 
-    private 'bar' => sub {
+    private_method 'bar' => sub {
         my $self = shift;
         return 'baz';
     };
@@ -25,7 +25,7 @@ use Test::Exception;
         return $self->foobar(shift);
     }
 
-    private 'foobar' => sub {
+    private_method 'foobar' => sub {
         my $self = shift;
         my $str  = shift;
         return 'foobar' . $str;
