@@ -14,7 +14,7 @@ sub wrap {
         croak "The "
             . $args{package_name} . "::"
             . $args{name}
-            . " name method is private"
+            . " method is private"
             unless ( scalar caller() ) eq $args{package_name};
 
         goto &{$method};
