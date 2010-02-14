@@ -5,16 +5,16 @@ our $VERSION = '0.01';
 use Moose::Exporter;
 
 Moose::Exporter->setup_import_methods(
-    with_caller => [qw( private protected )], );
+    with_meta => [qw( private_method protected_method )], );
 
-sub private {
-    my ( $caller, $name, $body ) = @_;
-    $caller->meta->add_private_method( $name, $body );
+sub private_method {
+    my ( $meta, $name, $body ) = @_;
+    $meta->add_private_method( $name, $body );
 }
 
-sub protected {
-    my ( $caller, $name, $body ) = @_;
-    $caller->meta->add_protected_method( $name, $body );
+sub protected_method {
+    my ( $meta, $name, $body ) = @_;
+    $meta->add_protected_method( $name, $body );
 }
 
 sub init_meta {
@@ -23,7 +23,7 @@ sub init_meta {
     my $for = $options{for_class};
     Moose->init_meta(%options);
 
-    Moose::Util::MetaRole::apply_metaclass_roles(
+    Moose::Util::MetaRole::apply_metaroles(
         for_class       => $for,
         metaclass_roles => [ 'MooseX::Privacy::Meta::Class', ],
     );
