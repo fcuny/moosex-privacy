@@ -15,12 +15,20 @@ has local_private_methods => (
 );
 
 sub add_private_method {
-    my ( $self, $method_name, $code ) = @_;
+    my $self = shift;
+    my ( $method_name, $body );
+    if ( scalar @_ == 1 ) {
+        $method_name = $_[0]->name;
+        $body        = $_[0]->body;
+    }
+    else {
+        ( $method_name, $body ) = @_;
+    }
     $self->add_method(
         $method_name,
         MooseX::Privacy::Meta::Method::Private->wrap(
             name         => $method_name,
-            body         => $code,
+            body         => $body,
             package_name => $self->name
         )
     );
