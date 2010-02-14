@@ -3,7 +3,7 @@ package MooseX::Privacy::Meta::Method::Protected;
 use Moose;
 extends 'Moose::Meta::Method';
 
-use Carp;
+use Carp qw/confess/;
 
 sub wrap {
     my $class = shift;
@@ -12,10 +12,10 @@ sub wrap {
     my $method         = delete $args{body};
     my $protected_code = sub {
         my $caller = caller();
-        croak "The "
+        confess "The "
             . $args{package_name} . "::"
             . $args{name}
-            . " name method is private"
+            . " method is protected"
             unless $caller eq $args{package_name}
                 || $caller->isa( $args{package_name} );
 
@@ -26,4 +26,28 @@ sub wrap {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+MooseX::Privacy::Meta::Method::Protected
+
+=head1 SYNOPSIS
+
+=head1 METHODS
+
+=head2 wrap
+
+=head1 AUTHOR
+
+franck cuny E<lt>franck@lumberjaph.netE<gt>
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
 
