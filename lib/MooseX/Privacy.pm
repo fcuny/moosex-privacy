@@ -9,12 +9,12 @@ Moose::Exporter->setup_import_methods(
 
 sub private_method {
     my ( $meta, $name, $body ) = @_;
-    $meta->add_private_method( $name, $body );
+    $meta->add_private_method($name, $body);
 }
 
 sub protected_method {
     my ( $meta, $name, $body ) = @_;
-    $meta->add_protected_method( $name, $body );
+    $meta->add_protected_method($name, $body);
 }
 
 sub init_meta {
@@ -40,11 +40,11 @@ MooseX::Privacy - Provides the syntax to restrict/control visibility of your met
 
   use MooseX::Privacy;
 
-  private _foo => sub {
+  private_method foo => sub {
     return 23;
   };
 
-  protected _bar => sub {
+  protected_method bar => sub {
     return 42;
   };
 
@@ -52,20 +52,26 @@ MooseX::Privacy - Provides the syntax to restrict/control visibility of your met
 
 MooseX::Privacy brings the concept of private and protected methods to your class.
 
+=head1 METHODS
+
 =head2 Private
 
 When you declare a method as B<private>, this method can be called only within the class.
 
     package Foo;
+
     use Moose;
     use MooseX::Privacy;
-    private _foo => sub { return 23 };
-    sub foo { my $self = shift; $self->_foo }
+
+    private_method foo => sub { return 23 };
+
+    sub mul_by_foo { my $self = shift; $self->foo * $_[0] }
+
     1;
 
     my $foo = Foo->new;
-    $foo->_foo; # die
-    $foo->foo;  # ok
+    $foo->foo; # die
+    $foo->mul_by_foo;  # ok
 
 =head2 Protected
 
@@ -73,20 +79,25 @@ When you declare a method as B<protected>, this method can be called only
 within the class AND any of it's subclasses.
 
     package Foo;
+
     use Moose;
     use MooseX::Privacy;
-    protected _foo => sub { return 23 };
+
+    protected_method foo => sub { return 23 };
 
     package Bar;
+
     use Moose;
     extends Foo;
-    sub foo { my $self = shift; $self->_foo }
+
+    sub bar { my $self = shift; $self->foo }
+
     1;
 
     my $foo = Foo->new;
-    $foo->_foo; # die
+    $foo->foo; # die
     my $bar = Bar->new;
-    $bar->foo;  # ok
+    $bar->bar;  # ok
 
 =head1 AUTHOR
 
