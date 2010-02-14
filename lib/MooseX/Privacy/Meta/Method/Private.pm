@@ -5,7 +5,7 @@ extends 'Moose::Meta::Method';
 
 use Carp;
 
-sub new {
+sub wrap {
     my $class = shift;
     my %args  = @_;
 
