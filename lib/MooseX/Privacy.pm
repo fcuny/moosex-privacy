@@ -29,6 +29,12 @@ sub init_meta {
     );
 }
 
+package Moose::Meta::Attribute::Custom::Trait::Private;
+sub register_implementation { 'MooseX::Privacy::Trait::Private' }
+
+package Moose::Meta::Attribute::Custom::Trait::Protected;
+sub register_implementation { 'MooseX::Privacy::Trait::Protected' }
+
 1;
 __END__
 
