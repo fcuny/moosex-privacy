@@ -16,6 +16,16 @@ has local_protected_methods => (
     handles    => { '_push_protected_method' => 'push' },
 );
 
+has local_protected_attributes => (
+    traits     => ['Array'],
+    is         => 'ro',
+    isa        => ArrayRef [Str],
+    required   => 1,
+    default    => sub { [] },
+    auto_deref => 1,
+    handles    => { '_push_protected_attribute' => 'push' },
+);
+
 sub add_protected_method {
     my ( $self, $method_name, $method ) = @_;
 
@@ -47,9 +57,27 @@ MooseX::Privacy::Meta::Class::Protected
 
 =head1 METHODS
 
+=head2 local_protected_attributes
+
+Arrayref of all protected attributes
+
+  my $protected_attributes = $self->meta->local_protected_attributes;
+
 =head2 local_protected_methods
 
+Arrayref of all protected methods
+
+  my $protected_methods = $self->meta->local_protected_methods;
+
 =head2 add_protected_method
+
+Add a protected method to your object.
+
+  $object->meta->add_protected_method('foo', sub { return 23 });
+
+or
+
+  $object->meta->add_protected_method('foo', MooseX::Privacy::Meta::Method::Protected->wrap(name => 'foo', package_name => 'Foo', body => sub {return 23});
 
 =head1 AUTHOR
 
