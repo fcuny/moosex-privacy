@@ -29,12 +29,6 @@ sub init_meta {
     );
 }
 
-package Moose::Meta::Attribute::Custom::Trait::Private;
-sub register_implementation { 'MooseX::Privacy::Trait::Private' }
-
-package Moose::Meta::Attribute::Custom::Trait::Protected;
-sub register_implementation { 'MooseX::Privacy::Trait::Protected' }
-
 1;
 __END__
 
@@ -45,6 +39,18 @@ MooseX::Privacy - Provides the syntax to restrict/control visibility of your met
 =head1 SYNOPSIS
 
   use MooseX::Privacy;
+
+  has config => (
+    is => 'rw',
+    isa => 'Some::Config',
+    traits => [qw/Private/],
+  );
+
+  has username => (
+    is => 'rw',
+    isa => 'Str',
+    traits => [qw/Protected/],
+  );
 
   private_method foo => sub {
     return 23;
@@ -104,6 +110,16 @@ within the class AND any of it's subclasses.
     $foo->foo; # die
     my $bar = Bar->new;
     $bar->bar;  # ok
+
+=head2 Attributes
+
+=head3 Private
+
+When the B<Private> traits is applied to an attribute, this attribute can only be read or set within the class.
+
+=head3 Protected
+
+When the B<Protected> traits is applied to an attribute, this attribute can only be read or set within the class AND any of his subclasses.
 
 =head1 AUTHOR
 
