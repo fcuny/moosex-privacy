@@ -3,14 +3,17 @@ package MooseX::Privacy::Meta::Class;
 use Moose::Role;
 use Moose::Meta::Class;
 
-with qw/MooseX::Privacy::Meta::Class::Private
-    MooseX::Privacy::Meta::Class::Protected/;
+with (
+    'MooseX::Privacy::Meta::Class::Role' => { name => 'protected' },
+    'MooseX::Privacy::Meta::Class::Role' => { name => 'private' },
+);
 
 package Moose::Meta::Attribute::Custom::Trait::Private;
-sub register_implementation { 'MooseX::Privacy::Trait::Private' }
+sub register_implementation {'MooseX::Privacy::Trait::Private'}
 
 package Moose::Meta::Attribute::Custom::Trait::Protected;
-sub register_implementation { 'MooseX::Privacy::Trait::Protected' }
+sub register_implementation {'MooseX::Privacy::Trait::Protected'}
+
 
 1;
 __END__
