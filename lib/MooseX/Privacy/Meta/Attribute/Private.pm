@@ -19,8 +19,7 @@ sub _generate_accessor_method {
         my $caller = ( scalar caller() );
         confess "Attribute " . $attr->name . " is private"
             unless $caller eq $package_name;
-        $attr->set_value( $self, $_[0] ) if scalar(@_) == 1;
-        $attr->set_value( $self, [@_] ) if scalar(@_) > 1;
+        $attr->set_value( $self, $_[0] ) if scalar @_;;
         $attr->get_value($self);
     };
 }
