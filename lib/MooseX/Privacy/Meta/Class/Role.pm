@@ -45,21 +45,21 @@ role {
     );
 
     method $meta_method => sub {
-        my ( $self, $method_name, $method ) = @_;
+        my ( $self, $method_name, $body ) = @_;
 
         my $class = "MooseX::Privacy::Meta::Method::" . ( ucfirst $name );
 
-        my $custom_method = blessed $method ? $method : $class->wrap(
+        my $method = blessed $body ? $body : $class->wrap(
             name         => $method_name,
             package_name => $self->name,
-            body         => $method
+            body         => $body
         );
 
         confess $method_name . " is not a " . $name . " method"
-            unless $custom_method->isa($class);
+            unless $method->isa($class);
 
-        $self->add_method( $custom_method->name, $custom_method );
-        $self->$push_method( $custom_method->name );
+        $self->add_method( $method->name, $method );
+        $self->$push_method( $method->name );
     };
 };
 
