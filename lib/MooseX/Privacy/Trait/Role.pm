@@ -6,7 +6,7 @@ parameter name => ( isa => 'Str', required => 1, );
 
 role {
     my $p         = shift;
-    my $role_name = "MooseX::Privacy::Meta::Attribute::" . ucfirst($p->name);
+    my $role_name = "MooseX::Privacy::Meta::Attribute::" . $p->name;
 
     around accessor_metaclass => sub {
         my ( $orig, $self, @rest ) = @_;
