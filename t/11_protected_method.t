@@ -38,8 +38,7 @@ with_immutable {
     isa_ok( $bar, 'Bar' );
     is $bar->baz(), 'baz', "... got the good value from &bar";
 
-    is scalar @{ $foo->meta->local_protected_methods }, 1,
-        '... got one protected method';
+    is $foo->meta->_count_protected_methods, 1, "... got one protected method";
 }
 (qw/Foo Bar/);
 

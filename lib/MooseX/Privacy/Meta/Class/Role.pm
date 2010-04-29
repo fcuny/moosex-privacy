@@ -18,7 +18,10 @@ role {
     my $local_attributes = "local_" . $name . "_attributes";
     my $push_method      = "_push_" . $name . "_method";
     my $push_attribute   = "_push_" . $name . "_attribute";
-    my $meta_method      = "add_" . $name . "_method";
+    my $count_methods    = "_count_" . $name . "_methods";
+    my $count_attributes = "_count_" . $name . "_attributes";
+
+    my $meta_method = "add_" . $name . "_method";
 
     has $local_methods => (
         traits     => ['Array'],
@@ -27,7 +30,7 @@ role {
         required   => 1,
         default    => sub { [] },
         auto_deref => 1,
-        handles    => { $push_method => 'push' },
+        handles    => { $push_method => 'push', $count_methods => 'count' },
     );
 
     has $local_attributes => (
@@ -37,7 +40,8 @@ role {
         required   => 1,
         default    => sub { [] },
         auto_deref => 1,
-        handles    => { $push_attribute => 'push' },
+        handles =>
+            { $push_attribute => 'push', $count_attributes => 'count' },
     );
 
     method $meta_method => sub {

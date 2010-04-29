@@ -56,8 +56,7 @@ with_immutable {
     isa_ok( $bar, 'Bar' );
     dies_ok { $bar->newbar() } "... can't call bar, method is private";
 
-    is scalar @{ $foo->meta->local_private_methods }, 2,
-        '... got two privates method';
+    is $foo->meta->_count_private_methods, 2, "... got two privates method";
 }
 (qw/Foo Bar/);
 
