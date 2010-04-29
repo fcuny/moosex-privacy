@@ -1,8 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 10;
 use Test::Exception;
+use Test::Moose;
 
 {
 
@@ -24,16 +25,18 @@ use Test::Exception;
     use Moose;
     extends 'Foo';
 
-    sub bar { (shift)->foo };
+    sub bar { (shift)->foo }
 }
 
-ok my $foo = Foo->new();
-dies_ok { $foo->foo };
-is scalar @{ $foo->meta->local_protected_attributes }, 1;
+with_immutable {
+    ok my $foo = Foo->new();
+    dies_ok { $foo->foo };
+    is scalar @{ $foo->meta->local_protected_attributes }, 1;
 
-ok my $bar = Bar->new();
-ok $bar->bar();
-
+    ok my $bar = Bar->new();
+    ok $bar->bar();
+}
+(qw/Foo Bar/);
 
 
 

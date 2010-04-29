@@ -1,8 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 10;
 use Test::Exception;
+use Test::Moose;
 
 {
 
@@ -28,16 +29,17 @@ use Test::Exception;
     }
 }
 
-my $foo = Foo->new();
-isa_ok( $foo, 'Foo' );
-dies_ok { $foo->bar } "... can't call bar, method is protected";
+with_immutable {
+    my $foo = Foo->new();
+    isa_ok( $foo, 'Foo' );
+    dies_ok { $foo->bar } "... can't call bar, method is protected";
 
-my $bar = Bar->new();
-isa_ok( $bar, 'Bar' );
-is $bar->baz(), 'baz', "... got the good value from &bar";
+    my $bar = Bar->new();
+    isa_ok( $bar, 'Bar' );
+    is $bar->baz(), 'baz', "... got the good value from &bar";
 
-is scalar @{ $foo->meta->local_protected_methods }, 1,
-    '... got one protected method';
-
-
+    is scalar @{ $foo->meta->local_protected_methods }, 1,
+        '... got one protected method';
+}
+(qw/Foo Bar/);
 

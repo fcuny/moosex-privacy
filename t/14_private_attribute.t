@@ -1,8 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 10;
 use Test::Exception;
+use Test::Moose;
 
 {
 
@@ -14,12 +15,6 @@ use Test::Exception;
     sub bar { my $self = shift; $self->foo('bar'); $self->foo }
 }
 
-ok my $foo = Foo->new();
-
-dies_ok { $foo->foo };
-ok $foo->bar;
-is scalar @{ $foo->meta->local_private_attributes }, 1;
-
 {
 
     package Bar;
@@ -27,7 +22,14 @@ is scalar @{ $foo->meta->local_private_attributes }, 1;
     has bar => ( is => 'rw', isa => 'Str', traits => [qw/Private/] );
 }
 
-ok my $bar = Bar->new();
+with_immutable {
+    ok my $foo = Foo->new();
 
+    dies_ok { $foo->foo };
+    ok $foo->bar;
+    is scalar @{ $foo->meta->local_private_attributes }, 1;
+    ok my $bar = Bar->new();
+}
+(qw/Foo Bar/);
 
 
