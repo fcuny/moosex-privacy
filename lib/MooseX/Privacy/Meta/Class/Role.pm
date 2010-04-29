@@ -4,6 +4,7 @@ use MooseX::Role::Parameterized;
 use Scalar::Util;
 use Carp qw/confess/;
 use MooseX::Types::Moose qw/Str ArrayRef/;
+
 use MooseX::Privacy::Meta::Method::Protected;
 use MooseX::Privacy::Meta::Method::Private;
 
@@ -63,34 +64,9 @@ __END__
 
 =head1 NAME
 
-MooseX::Privacy::Meta::Class::Role
+MooseX::Privacy::Meta::Class::Role - Private and Protected parameterized roles
 
 =head1 SYNOPSIS
-
-=head1 METHODS
-
-=head2 local_private_attributes
-
-Arrayref of all private attributes
-
-  my $private_attributes = $self->meta->local_private_attributes;
-
-=head2 local_private_methods
-
-Arrayref of all private methods
-
-  my $private_methods = $self->meta->local_private_methods;
-
-=head2 add_private_method
-
-Add a private method to your object.
-
-  $object->meta->add_private_method('foo', sub { return 23 });
-
-or
-
-  $object->meta->add_private_method('foo', MooseX::Privacy::Meta::Method::Priva
-te->wrap(name => 'foo', package_name => 'Foo', body => sub {return 23});
 
 =head1 AUTHOR
 

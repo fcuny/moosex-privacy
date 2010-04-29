@@ -38,27 +38,27 @@ MooseX::Privacy - Provides the syntax to restrict/control visibility of your met
 
 =head1 SYNOPSIS
 
-  use MooseX::Privacy;
+    use MooseX::Privacy;
 
-  has config => (
-    is => 'rw',
-    isa => 'Some::Config',
-    traits => [qw/Private/],
-  );
+    has config => (
+        is     => 'rw',
+        isa    => 'Some::Config',
+        traits => [qw/Private/],
+    );
 
-  has username => (
-    is => 'rw',
-    isa => 'Str',
-    traits => [qw/Protected/],
-  );
+    has username => (
+        is     => 'rw',
+        isa    => 'Str',
+        traits => [qw/Protected/],
+    );
 
-  private_method foo => sub {
-    return 23;
-  };
+    private_method foo => sub {
+        return 23;
+    };
 
-  protected_method bar => sub {
-    return 42;
-  };
+    protected_method bar => sub {
+        return 42;
+    };
 
 =head1 DESCRIPTION
 
@@ -82,8 +82,8 @@ When you declare a method as B<private>, this method can be called only within t
     1;
 
     my $foo = Foo->new;
-    $foo->foo; # die
-    $foo->mul_by_foo;  # ok
+    $foo->foo;           # die
+    $foo->mul_by_foo;    # ok
 
 =head2 Protected
 
@@ -107,9 +107,9 @@ within the class AND any of it's subclasses.
     1;
 
     my $foo = Foo->new;
-    $foo->foo; # die
+    $foo->foo;    # die
     my $bar = Bar->new;
-    $bar->bar;  # ok
+    $bar->bar;    # ok
 
 =head2 Attributes
 

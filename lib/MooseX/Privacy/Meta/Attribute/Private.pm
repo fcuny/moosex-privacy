@@ -2,7 +2,6 @@ package MooseX::Privacy::Meta::Attribute::Private;
 
 use Moose::Role;
 use Carp qw/confess/;
-use MooseX::Types::Moose qw/Str ArrayRef/;
 
 sub _generate_accessor_method {
     my $self = shift;
