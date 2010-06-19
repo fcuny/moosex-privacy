@@ -14,14 +14,16 @@ role {
     my $p = shift;
 
     my $name             = $p->name;
-    my $local_methods    = "local_" . $name . "_methods";
-    my $local_attributes = "local_" . $name . "_attributes";
-    my $push_method      = "_push_" . $name . "_method";
-    my $push_attribute   = "_push_" . $name . "_attribute";
-    my $count_methods    = "_count_" . $name . "_methods";
-    my $count_attributes = "_count_" . $name . "_attributes";
-
-    my $meta_method = "add_" . $name . "_method";
+    my $local_methods        = "local_" . $name . "_methods";
+    my $local_attributes     = "local_" . $name . "_attributes";
+    my $push_method          = "_push_" . $name . "_method";
+    my $push_attribute       = "_push_" . $name . "_attribute";
+    my $count_methods        = "_count_" . $name . "_methods";
+    my $count_attributes     = "_count_" . $name . "_attributes";
+    my $get_method           = 'get_' . $name . '_method';
+    my $get_all_mehods       = 'get_all_' . $name . '_methods';
+    my $get_all_methods_name = 'get_all_' . $name . '_method_names';
+    my $meta_method          = "add_" . $name . "_method";
 
     has $local_methods => (
         traits     => ['Array'],

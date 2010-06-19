@@ -5,22 +5,34 @@ use Test::More tests => 10;
 use Test::Exception;
 use Test::Moose;
 
-{
+package Foo;
+use Moose;
+use MooseX::Privacy;
 
-    package Foo;
-    use Moose;
-    use MooseX::Privacy;
+has foo => (
+    is      => 'rw',
+    isa     => 'Str',
+    lazy    => 1,
+    default => 'test',
+    traits  => [qw/Private/]
+);
 
-    has foo => ( is => 'rw', isa => 'Str', traits => [qw/Private/] );
-    sub bar { my $self = shift; $self->foo('bar'); $self->foo }
+sub bar {
+    my $self = shift;
+    $self->foo('bar');
+    $self->foo;
 }
 
-{
+package Bar;
+use Moose;
 
-    package Bar;
-    use Moose;
-    has bar => ( is => 'rw', isa => 'Str', traits => [qw/Private/] );
-}
+has bar => (
+    is => 'rw',
+    isa => 'Str',
+    traits => [qw/Private/]
+);
+
+package main;
 
 with_immutable {
     ok my $foo = Foo->new();
@@ -31,5 +43,3 @@ with_immutable {
     ok my $bar = Bar->new();
 }
 (qw/Foo Bar/);
-
-
