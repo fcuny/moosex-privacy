@@ -3,25 +3,13 @@ package MooseX::Privacy::Meta::Attribute::Protected;
 use Moose::Role;
 use Carp qw/confess/;
 
-sub _generate_accessor_method {
-    my $self = shift;
-    my $attr = $self->associated_attribute;
+with 'MooseX::Privacy::Meta::Attribute::Privacy' => {level => 'protected'};
 
-    my $package_name = $attr->associated_class->name;
-    my $class = $attr->associated_class->name->meta;
-    if ( $class->meta->has_attribute('local_protected_attributes') ) {
-        $class->_push_protected_attribute( $attr->name );
-    }
-
-    return sub {
-        my $self   = shift;
-        my $caller = ( scalar caller() );
-        confess "Attribute " . $attr->name . " is protected"
-            unless $caller eq $self->meta->name
-                or $caller->isa( $package_name );
-        $attr->set_value( $self, $_[0] ) if scalar @_;
-        $attr->get_value($self);
-    };
+sub _check_protected {
+    my ($meta, $caller, $attr_name, $package_name, $object_name) = @_;
+    confess "Attribute " . $attr_name . " is protected"
+      unless $caller eq $object_name
+          or $caller->isa($package_name);
 }
 
 1;

@@ -3,24 +3,12 @@ package MooseX::Privacy::Meta::Attribute::Private;
 use Moose::Role;
 use Carp qw/confess/;
 
-sub _generate_accessor_method {
-    my $self = shift;
-    my $attr = $self->associated_attribute;
+with 'MooseX::Privacy::Meta::Attribute::Privacy' => {level => 'private'};
 
-    my $package_name = $attr->associated_class->name;
-    my $class = $attr->associated_class->name->meta;
-    if ( $class->meta->has_attribute('local_private_attributes') ) {
-        $class->_push_private_attribute( $attr->name );
-    }
-
-    return sub {
-        my $self   = shift;
-        my $caller = ( scalar caller() );
-        confess "Attribute " . $attr->name . " is private"
-            unless $caller eq $package_name;
-        $attr->set_value( $self, $_[0] ) if scalar @_;;
-        $attr->get_value($self);
-    };
+sub _check_private {
+    my ($meta, $caller, $attr_name, $package_name) = @_;
+    confess "Attribute " . $attr_name . " is private"
+        unless $caller eq $package_name;
 }
 
 1;
