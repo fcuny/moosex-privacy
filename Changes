@@ -1,4 +1,7 @@
 Revision history for Perl extension MooseX::Privacy
 
+0.02    Sun 18 Jul 2010 03:06:19 PM CEST
+        - close RT #58330
+
 0.01    Wed Feb 10 09:09:07 2010
         - original version
