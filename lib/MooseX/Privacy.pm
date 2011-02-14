@@ -26,8 +26,8 @@ sub init_meta {
     Moose->init_meta(%options);
 
     Moose::Util::MetaRole::apply_metaroles(
-        for_class       => $for,
-        metaclass_roles => [ 'MooseX::Privacy::Meta::Class', ],
+        for             => $for,
+        class_metaroles => { class => [ 'MooseX::Privacy::Meta::Class', ] },
     );
 }
 
