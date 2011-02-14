@@ -1,5 +1,8 @@
 Revision history for Perl extension MooseX::Privacy
 
+0.04    Mon Feb 14 22:35:24 2011
+        - fix broken Makefile
+
 0.03    Mon Feb 14 22:22:48 2011
         - use new metarole API
 
